@@ -1,9 +1,8 @@
 # MahiruShiinaPy
 
-The code for MahiruShiinaJS rewritten in Python for simplicity 
-Mahiru Shiina JS (More detailed README): https://github.com/Hobospider132/MahiruShiinaJS
+The code for [MahiruShiinaJS](https://github.com/Hobospider132/MahiruShiinaJS) rewritten in Python for simplicity. Please refer to the original repo for more details. 
 
 
 Special thanks to:
 
-- Tech. TTGames for providing template code for Python version (link to his repo: https://github.com/Tech-TTGames/Tickets-Plus)
+- Tech. TTGames for providing template code for Python version [repo](https://github.com/Tech-TTGames/Tickets-Plus).
