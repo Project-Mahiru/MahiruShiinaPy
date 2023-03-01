@@ -12,6 +12,7 @@ import discord
 # MAJOR and MINOR version changes can be compatibility-breaking
 VERSION = "v0.0.0.1"
 PROG_DIR = os.path.dirname(os.path.realpath(__file__))
+API_URL = "https://api-inference.huggingface.co/models/Hobospider132/DialoGPT-Mahiru-Proto"
 
 intents = discord.Intents.default()
 handler = RotatingFileHandler(
