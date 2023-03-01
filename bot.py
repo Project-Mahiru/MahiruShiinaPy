@@ -27,8 +27,9 @@ async def on_ready():
 
 if __name__ == "__main__":
     if os.environ.get("LIVE_DEBUG"):
-        bot.run(scrt.token, log_level=logging.INFO, log_handler=logging.StreamHandler())
+        hndlr = logging.StreamHandler()
+        bot.run(scrt.token, log_level=logging.INFO, log_handler=hndlr, root_logger=True)
     elif os.environ.get("DEBUG"):
-        bot.run(scrt.token, log_level=logging.INFO, log_handler=handler)
+        bot.run(scrt.token, log_level=logging.INFO, log_handler=handler, root_logger=True)
     else:
-        bot.run(scrt.token, log_level=logging.WARN, log_handler=handler)
+        bot.run(scrt.token, log_level=logging.WARNING, log_handler=handler, root_logger=True)
