@@ -1,6 +1,8 @@
 # MahiruShiinaPy
 
 The code for MahiruShiinaJS rewritten in Python for simplicity 
+Mahiru Shiina JS (More detailed README): https://github.com/Hobospider132/MahiruShiinaJS
+
 
 Special thanks to:
 
