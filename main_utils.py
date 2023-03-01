@@ -13,7 +13,7 @@ def query(self, payload):
 data = json.dumps(payload)
 response = requests.request('POST',
    'https://api-inference.huggingface.co/models/Hobospider132/DialoGPT-Mahiru-Proto',
-    headers={ 'Authorization': 'Bearer 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' },
+    headers={ 'Authorization': 'Bearer Hoob\'s API' },
     data=data)
 
 ret = json.loads(response.content.decode('utf-8'))
@@ -27,7 +27,7 @@ class Utility(commands.Cog, name="Main Utilities"):
         logging.info("Loaded %s", self.__class__.__name__)
 
     @app_commands.command(
-        name="ping", description="The classic ping command. Checks the bot's latency."
+        name="mahiru", description="Speak with Mahiru AI!"
     )
     async def ping(self, ctx):
         payload = {'inputs': {'text': ctx.content}}
