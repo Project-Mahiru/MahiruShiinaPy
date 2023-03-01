@@ -1,8 +1,6 @@
 """The main cog. Contains 'mainstream' utilities."""
 import logging
-import os
 import json
-import requests
 import requests
 
 import discord
