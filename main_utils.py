@@ -1,16 +1,13 @@
 """The main cog. Contains 'mainstream' utilities."""
-import asyncio
 import logging
 
-import discord
 from discord import app_commands
 from discord.ext import commands
 
 class Utility(commands.Cog, name="Main Utilities"):
     """Main bot utilities"""
 
-    def __init__(self, bot: commands.Bot, config: Config):
-        self._config = config
+    def __init__(self, bot: commands.Bot):
         self._bt = bot
         logging.info("Loaded %s", self.__class__.__name__)
 
@@ -24,6 +21,7 @@ class Utility(commands.Cog, name="Main Utilities"):
             + str(round(self._bt.latency * 1000))
             + "ms"
         )
-			
+
 async def setup(bot: commands.Bot):
+    """Setup function for the cog."""
     await bot.add_cog(Utility(bot))
