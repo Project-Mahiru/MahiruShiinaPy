@@ -3,17 +3,22 @@ import logging
 import os
 import json
 import requests
+import requests
 
 import discord
 from discord import app_commands
 from discord.ext import commands
+
+from variables import Secret
+
+scrt = Secret()
 
 def query(payload):
     """ Make a request to the Hugging Face model API """
     data = json.dumps(payload)
     response = requests.request('POST',
     'https://api-inference.huggingface.co/models/Hobospider132/DialoGPT-Mahiru-Proto',
-        headers={"Authorization": f"Bearer {os.environ.get('HUGGINGFACE_API_KEY')}"},
+        headers={ "Authorization": f"Bearer {scrt.htoken}" },
         data=data,
         timeout=60
         )
