@@ -24,11 +24,7 @@ async def on_ready():
     await bot.load_extension("main_utils")
     await bot.tree.sync()
     logging.info("Finished loading cogs.")
-    print("Tech's Note: This is weird but the repo owner wants it so sure.\n\n"
-          f"Project [Mahiru] {VERSION} startup complete.\n"
-          f"Discord.py version: {discord.__version__}\n"
-          f"Bot user: {bot.user}\n\n"
-          "Disclaimer:\n"
+    print("Disclaimer:\n"
           "This bot is not affiliated with the author of Otonari no Tenshi-sama in any way.\n"
           "The AI model does not represent the author's or developer's views in any way.\n"
           "Please do not use this bot to harass the author or anyone else.")
