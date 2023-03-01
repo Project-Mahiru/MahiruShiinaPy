@@ -1,6 +1,7 @@
 """This file is used to access the model either locally or via the HuggingFace API."""
 from typing import Tuple
 import os
+import logging
 
 import aiohttp
 try:
@@ -18,10 +19,15 @@ class Mahiru:
         self._secret = Secret()
         self._client = None
         self._pipeline = None
-        if LOCAL and not os.environ.get("FORCE_ONLINE", False):
-            self._pipeline = pipeline("conversational",model=MODEL_NAME)
+        force_online = int(os.environ.get("FORCE_ONLINE", 0))
+        if LOCAL and not force_online:
+            logging.info("Using local model")
+            self._pipeline = pipeline("conversational",
+                                      model=MODEL_NAME,
+                                      use_auth_token=self._secret.htoken,)
             return
         if self._secret.htoken:
+            logging.info("Using API model")
             self._session = aiohttp.ClientSession()
             return
         raise ValueError("No valid model access method found")

@@ -44,7 +44,7 @@ class Secret:
         with open(self._file, encoding="utf-8", mode="r") as secret_f:
             self.secrets = json.load(secret_f)
         self.token = self.secrets["token"]
-        self.htoken = self.secrets.get("htoken", None)
+        self.htoken = self.secrets.get("htoken", False)
 
     def __repr__(self) -> str:
         return "[OBFUSCATED]"
