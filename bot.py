@@ -24,7 +24,7 @@ async def on_ready():
     await bot.load_extension("main_utils")
     await bot.tree.sync()
     logging.info("Finished loading cogs.")
-
+    print("I'm online now!")
 
 if __name__ == "__main__":
     if os.environ.get("LIVE_DEBUG"):
