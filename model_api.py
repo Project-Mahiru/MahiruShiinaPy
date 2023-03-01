@@ -24,7 +24,8 @@ class Mahiru:
             logging.info("Using local model")
             self._pipeline = pipeline("conversational",
                                       model=MODEL_NAME,
-                                      use_auth_token=self._secret.htoken,)
+                                      use_auth_token=self._secret.htoken)
+            logging.info("Model %s ready", self._pipeline.model.name_or_path)
             return
         if self._secret.htoken:
             logging.info("Using API model")
