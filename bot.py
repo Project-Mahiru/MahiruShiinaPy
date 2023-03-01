@@ -15,7 +15,7 @@ scrt = Secret()
 async def on_ready():
     """Logs bot readiness"""
     logging.info("Connected to Discord as %s", bot.user)
-    logging.info("Bot version: %s", VERSION)
+    logging.info("Project [Mahiru] version: %s", VERSION)
     logging.info("Discord.py version: %s", discord.__version__)
     await bot.change_presence(status=discord.Status.idle,
                             activity=discord.Activity(type=discord.ActivityType.playing,
