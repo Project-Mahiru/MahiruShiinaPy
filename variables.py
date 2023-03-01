@@ -4,9 +4,7 @@ This file is a based on the variables.py file from my other bot.
 """
 import json
 import os
-from logging.handlers import RotatingFileHandler
-from string import Template
-from typing import List, Literal, Union
+
 
 import discord
 
@@ -17,13 +15,7 @@ PROG_DIR = os.path.dirname(os.path.realpath(__file__))
 
 intents = discord.Intents.default()
 intents.message_content = True  # pylint: disable=assigning-non-slot
-handler = RotatingFileHandler(
-    filename=os.path.join(PROG_DIR, "log", "discord.log"),
-    encoding="utf-8",
-    mode="w",
-    backupCount=10,
-    maxBytes=100000,
-)
+
 
 class Secret:
     """Class for secret.json management"""
