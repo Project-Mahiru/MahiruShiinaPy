@@ -30,7 +30,7 @@ async def on_ready():
           f"Bot user: {bot.user}\n\n"
           "Disclaimer:\n"
           "This bot is not affiliated with the author of Otonari no Tenshi-sama in any way.\n"
-          "The AI model does not represent the author's views in any way.\n"
+          "The AI model does not represent the author's or developer's views in any way.\n"
           "Please do not use this bot to harass the author or anyone else.")
 
 if __name__ == "__main__":
