@@ -11,5 +11,4 @@ The code for [MahiruShiinaJS](https://github.com/Hobospider132/MahiruShiinaJS) r
 Special thanks to:
 
 - Tech. TTGames for providing template code for Python version [repo](https://github.com/Tech-TTGames/Tickets-Plus) and for carrying the repo.
-Really can't thank Tech enough for helping out with this repo (Tech carried it on his back)
-
+Really can't thank Tech enough for helping out with this repo (Tech carried it on his back) [TN: No I didn't.]

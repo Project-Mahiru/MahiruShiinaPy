@@ -4,7 +4,7 @@ import os
 
 import aiohttp
 try:
-    from transformers import Conversation, ConversationalPipeline
+    from transformers import Conversation, pipeline
     LOCAL = True
 except ImportError:
     LOCAL = False
@@ -19,7 +19,7 @@ class Mahiru:
         self._client = None
         self._pipeline = None
         if LOCAL and not os.environ.get("FORCE_ONLINE", False):
-            self._pipeline = ConversationalPipeline(model=MODEL_NAME)
+            self._pipeline = pipeline("conversational",model=MODEL_NAME)
             return
         if self._secret.htoken:
             self._session = aiohttp.ClientSession()
