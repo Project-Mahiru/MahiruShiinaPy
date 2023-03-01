@@ -1,33 +1,21 @@
 """The main cog. Contains 'mainstream' utilities."""
 import logging
-import json
-import requests
+from random import choice
 
+import asyncio
 import discord
 from discord import app_commands
 from discord.ext import commands
 
-from variables import API_URL, Secret
-
-scrt = Secret()
-
-def query(payload):
-    """ Make a request to the Hugging Face model API """
-    data = json.dumps(payload)
-    response = requests.request('POST',
-                                API_URL,
-                                headers={ "Authorization": f"Bearer {scrt.htoken}" },
-                                data=data,
-                                timeout=60)
-
-    ret = json.loads(response.content.decode('utf-8'))
-    return ret
+from variables import error_quotes
+from model_api import Mahiru
 
 class Utility(commands.Cog, name="Main Utilities"):
     """Main bot utilities"""
 
     def __init__(self, bot: commands.Bot):
         self._bt = bot
+        self._mahiru = Mahiru()
         logging.info("Loaded %s", self.__class__.__name__)
 
     @app_commands.command(
@@ -36,18 +24,32 @@ class Utility(commands.Cog, name="Main Utilities"):
     async def mahiru(self, ctx: discord.Interaction, content: str):
         """Speak with Mahiru AI!"""
         await ctx.response.defer()
-        payload = {"inputs": {"text": content}}
-        response = query(payload)
-        bot_response = response.get("generated_text", None)
-
-        if not bot_response:
-            if 'error' in response:
-                bot_response = f"Error: {response['error']}"
-            else:
-                bot_response = "Hmm... something is not right."
-
-        # send the model's response to the Discord channel
-        await ctx.followup.send(bot_response)
+        exit_code, response = await self._mahiru.talk(content)
+        if exit_code == 1:
+            message = choice(error_quotes) + \
+                "\nI'm sorry, it seems like there's been a miscommunication." +\
+                f" Please try again or ask for help if needed.\n\nError: {response}"
+            logging.error("Model failed to respond with errror: %s",message)
+            await ctx.followup.send(message, ephemeral=True)
+            return
+        if exit_code == 2:
+            await asyncio.sleep(60)
+            exit_code, response = await self._mahiru.talk(content)
+            if exit_code == 1:
+                message = "**Mahiru**: " + choice(error_quotes) + \
+                    "\nI'm sorry, it seems like there's been a miscommunication." +\
+                    f" Please try again or ask for help if needed.\n\nError: {response}"
+                logging.error("Model failed to respond with errror: %s",message)
+                await ctx.followup.send(message, ephemeral=True)
+                return
+            if exit_code == 2:
+                message = "**DEVELOPER**: Oh dear, it seems like Mahiru isn't ready to talk yet." +\
+                    " Please try again later and if the issue persist contact staff."
+                logging.warning("Model failed to wake up after 60 seconds.")
+                await ctx.followup.send(message, ephemeral=True)
+                return
+        convo = f"**{ctx.user.name}**: {content}\n**Mahiru**: {response}"
+        await ctx.followup.send(convo)
 
 async def setup(bot: commands.Bot):
     """Setup function for the cog."""
