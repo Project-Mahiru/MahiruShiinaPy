@@ -1,23 +1,25 @@
 """The main cog. Contains 'mainstream' utilities."""
 import logging
+import json
 
+import discord
 from discord import app_commands
 from discord.ext import commands
 
-import json
 import requests
 
-def query(self, payload):
-""" make request to the Hugging Face model API """
+def query(payload):
+    """ Make a request to the Hugging Face model API """
+    data = json.dumps(payload)
+    response = requests.request('POST',
+    'https://api-inference.huggingface.co/models/Hobospider132/DialoGPT-Mahiru-Proto',
+        headers={ 'Authorization': 'Bearer Hoob\'s API' },
+        data=data,
+        timeout=60
+        )
 
-data = json.dumps(payload)
-response = requests.request('POST',
-   'https://api-inference.huggingface.co/models/Hobospider132/DialoGPT-Mahiru-Proto',
-    headers={ 'Authorization': 'Bearer Hoob\'s API' },
-    data=data)
-
-ret = json.loads(response.content.decode('utf-8'))
-return ret
+    ret = json.loads(response.content.decode('utf-8'))
+    return ret
 
 class Utility(commands.Cog, name="Main Utilities"):
     """Main bot utilities"""
@@ -29,19 +31,21 @@ class Utility(commands.Cog, name="Main Utilities"):
     @app_commands.command(
         name="mahiru", description="Speak with Mahiru AI!"
     )
-    async def ping(self, ctx):
-        payload = {'inputs': {'text': ctx.content}}
-        response = self.query(payload)
-        bot_response = response.get('generated_text', None)
+    async def mahiru(self, ctx: discord.Interaction, content: str):
+        """Speak with Mahiru AI!"""
+        await ctx.response.defer()
+        payload = {"inputs": {"text": content}}
+        response = query(payload)
+        bot_response = response.get("generated_text", None)
 
         if not bot_response:
             if 'error' in response:
-                bot_response = '`Error: {}`'.format(response['error'])
+                bot_response = f"Error: {response['error']}"
             else:
-                bot_response = 'Hmm... something is not right.'
+                bot_response = "Hmm... something is not right."
 
         # send the model's response to the Discord channel
-        await ctx.channel.send(bot_response)
+        await ctx.followup.send(bot_response)
 
 async def setup(bot: commands.Bot):
     """Setup function for the cog."""
