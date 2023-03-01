@@ -8,16 +8,16 @@ import json
 import requests
 
 def query(self, payload):
-		"""
-		make request to the Hugging Face model API
-		"""
-		data = json.dumps(payload)
-		response = requests.request('POST',
-																'https://api-inference.huggingface.co/models/Hobospider132/DialoGPT-Mahiru-Proto',
-																headers={ 'Authorization': 'Bearer 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' },
-																data=data)
-		ret = json.loads(response.content.decode('utf-8'))
-		return ret
+""" make request to the Hugging Face model API """
+
+data = json.dumps(payload)
+response = requests.request('POST',
+   'https://api-inference.huggingface.co/models/Hobospider132/DialoGPT-Mahiru-Proto',
+    headers={ 'Authorization': 'Bearer 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' },
+    data=data)
+
+ret = json.loads(response.content.decode('utf-8'))
+return ret
 
 class Utility(commands.Cog, name="Main Utilities"):
     """Main bot utilities"""
