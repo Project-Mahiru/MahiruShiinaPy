@@ -4,8 +4,10 @@ import os
 import logging
 
 import aiohttp
+
 try:
     from transformers import Conversation, pipeline
+
     LOCAL = True
 except ImportError:
     LOCAL = False
@@ -15,6 +17,7 @@ from variables import MODEL_NAME, API_URL, Secret
 
 class Mahiru:
     """Class for accessing Mahiru AI."""
+
     def __init__(self):
         self._secret = Secret()
         self._client = None
@@ -22,9 +25,9 @@ class Mahiru:
         force_online = int(os.environ.get("FORCE_ONLINE", 0))
         if LOCAL and not force_online:
             logging.info("Using local model")
-            self._pipeline = pipeline("conversational",
-                                      model=MODEL_NAME,
-                                      use_auth_token=self._secret.htoken)
+            self._pipeline = pipeline(
+                "conversational", model=MODEL_NAME, use_auth_token=self._secret.htoken
+            )
             logging.info("Model %s ready", self._pipeline.model.name_or_path)
             return
         if self._secret.htoken:
@@ -38,11 +41,13 @@ class Mahiru:
         if self._pipeline:
             conversation = Conversation(data)
             self._pipeline(conversation)
-            return (0,conversation.generated_responses[-1])
+            return (0, conversation.generated_responses[-1])
 
         payload = {"inputs": {"text": data}}
-        header = { "Authorization": f"Bearer {self._secret.htoken}" }
-        async with self._session.post(API_URL, json=payload, headers=header, timeout=60) as resp:
+        header = {"Authorization": f"Bearer {self._secret.htoken}"}
+        async with self._session.post(
+            API_URL, json=payload, headers=header, timeout=60
+        ) as resp:
             result = await resp.json()
             if result.get("error", None):
                 if result["error"] == f"Model {MODEL_NAME} is currently loading":
