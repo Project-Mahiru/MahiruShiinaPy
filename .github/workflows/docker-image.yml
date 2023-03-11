@@ -27,6 +27,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Docker Metadata action
+      id: meta
       uses: docker/metadata-action@v4.3.0
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
@@ -39,5 +40,4 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        # GitHub Token used to authenticate against a repository for Git context
         github-token: ${{ secrets.GITHUB_TOKEN }}
